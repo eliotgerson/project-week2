@@ -1,0 +1,26 @@
+pmquery:.((`context
+   .((`reportType;`pm;)
+     (`contextType;`pm;)
+     (`value;;))
+   )
+  (`columns
+   (.((`name;`name;)
+      (`alias;`procesModelName;)
+      (`groupBy;0;)
+      (`aggregation;;))
+    .((`name;`creator;)
+      (`alias;`usernameCreator;)
+      (`groupBy;0;)
+      (`aggregation;;)))
+   )
+  (`filters
+   ,.((`column;`timestampLastModified;)
+      (`operation;`lt;)
+      (`value;"2016-08-08 15:00";))
+   )
+  (`pagingInfo
+   .((`column;`name;)
+     (`order;`asc;)
+     (`startIndex;0;)
+     (`batchSize;25;))
+   ))
