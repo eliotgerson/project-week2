@@ -1,7 +1,7 @@
 / note that the variable `h refers to the dictionary defined in dictionary.k
 /call the appropriate helper functions based on the query definition 
 runQuery:{
-:[x.context.reportType~`pm;+applyPmContext[x.columns[]@\:`name;x.context.value]]}
+:[x.context.reportType~`pm;+applyPmContext[x.columns[]@\:`name;x.context.value];x.context.reportType~`p;applyPContext[x]]}
 / start by narrowing down the context 
 / (only look at process models that match the value in the query)
 / so that subsequent operations are only run on the subset of data that 
