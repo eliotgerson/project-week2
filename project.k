@@ -25,8 +25,11 @@ rtdHelper[x;]' y}
 main:{
 a:runQuery[x]
 q:resultToDictionary[(x.columns@\:`alias);a]
+c: (x.pagingInfo.startIndex)_ q
+d:(:[x.pagingInfo.batchSize<#c;(x.pagingInfo.batchSize)#c;c])
 i:.((`startIndex;x.pagingInfo.startIndex;)
 (`batchSize;x.pagingInfo.batchSize;)
 (`total;#q)
-(`result;q))
+(`result;d))
 i}
+
