@@ -1,7 +1,7 @@
 / note that the variable `h refers to the dictionary defined in dictionary.k
 /call the appropriate helper functions based on the query definition 
 runQuery:{
-:[x.context.reportType~`pm;+applyPmContext[x.columns[]@\:`name;x.context.value];x.context.reportType~`p;applyPContext[x]]}
+:[x.context.reportType~`pm;+applyPmContext[x.columns[]@\:`name;x.context.value];x.context.reportType~`p;+applyPContext[x]]}
 / start by narrowing down the context 
 / (only look at process models that match the value in the query)
 / so that subsequent operations are only run on the subset of data that 
@@ -22,7 +22,7 @@ b}
 
 / takes the query as an argument
 applyPContext:{
-:[x.context.contextType~`pm; returnOrLookup[;`Process;pmToProcessIndex[x.context.value]]' x.columns[]@\:`name;x.context.contextType~`p;returnOrLookup[;`Process;x.context.value]' x.columns[]@\:`name];' `invalidContextType}
+:[x.context.contextType~`pm; returnOrLookup[;`Process;pmToProcessIndex[x.context.value]]' x.columns[]@\:`name;x.context.contextType~`p;returnOrLookup[;`Process;x.context.value]' x.columns[]@\:`name]}
 
 returnOrLookup:{
 :[x~`creator;h.User.username[((h@y).`creator)[z]];(x~`pvs)&(y~`ProcessModel);h.ProcessModelVariable.name[((h@y).`pvs)[z]];x~`nodes;h.ProcessModelNode.name[((h@y).`nodes)[z]];((h@y)@x)[z]]}
