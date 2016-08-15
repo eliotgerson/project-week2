@@ -11,6 +11,19 @@ runQuery:{
 applyPmContext:{
 returnOrLookup[;`ProcessModel;y]' x}
 
+/ pass in the query.context.value as x
+pmToProcessIndex:{
+a:+((h.Process.pm@*:'=h.Process.pm)
+   =h.Process.pm)
+b:()    
+f:{if[x[0] _in y;b,:x[1]]}
+f[;x]' a
+b}
+
+/ takes the query as an argument
+applyPContext:{
+:[x.context.contextType~`pm; returnOrLookup[;`Process;pmToProcessIndex[x.context.value]]' x.columns[]@\:`name;x.context.contextType~`p;returnOrLookup[;`Process;x.context.value]' x.columns[]@\:`name];' `invalidContextType}
+
 returnOrLookup:{
 :[x~`creator;h.User.username[((h@y).`creator)[z]];(x~`pvs)&(y~`ProcessModel);h.ProcessModelVariable.name[((h@y).`pvs)[z]];x~`nodes;h.ProcessModelNode.name[((h@y).`nodes)[z]];((h@y)@x)[z]]}
 
