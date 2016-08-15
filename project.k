@@ -12,3 +12,21 @@ returnOrLookup[;`ProcessModel;y]' x}
 
 returnOrLookup:{
 :[x~`creator;h.User.username[((h@y).`creator)[z]];(x~`pvs)&(y~`ProcessModel);h.ProcessModelVariable.name[((h@y).`pvs)[z]];x~`nodes;h.ProcessModelNode.name[((h@y).`nodes)[z]];((h@y)@x)[z]]}
+
+rtdHelper:{.+(x;y)}
+
+/ takes two parameters: a list of aliases from the query, and the values returned
+/ by runQuery
+
+resultToDictionary:{
+rtdHelper[x;]' y}
+
+/ a main function to put things together (at least for now)
+main:{
+a:runQuery[x]
+q:resultToDictionary[(x.columns@\:`alias);a]
+i:.((`startIndex;x.pagingInfo.startIndex;)
+(`batchSize;x.pagingInfo.batchSize;)
+(`total;#q)
+(`result;q))
+i}
