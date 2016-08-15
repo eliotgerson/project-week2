@@ -11,4 +11,4 @@ applyPmContext:{
 returnOrLookup[;`ProcessModel;y]' x}
 
 returnOrLookup:{
-:[x~`creator;h.User.username[((h@y).`creator)[z]];((h@y)@x)[z]]}
+:[x~`creator;h.User.username[((h@y).`creator)[z]];(x~`pvs)&(y~`ProcessModel);h.ProcessModelVariable.name[((h@y).`pvs)[z]];x~`nodes;h.ProcessModelNode.name[((h@y).`nodes)[z]];((h@y)@x)[z]]}
