@@ -1,3 +1,4 @@
+/ note that the variable `h refers to the dictionary defined in dictionary.k
 /call the appropriate helper functions based on the query definition 
 runQuery:{
 :[x.context.reportType~`pm;+applyPmContext[x.columns[]@\:`name;x.context.value]]}
