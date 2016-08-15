@@ -32,4 +32,3 @@ i:.((`startIndex;x.pagingInfo.startIndex;)
 (`total;#q)
 (`result;d))
 i}
-
