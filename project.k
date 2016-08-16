@@ -61,6 +61,9 @@ main:{[query]
   cn:query.columns[]@\:`name
   a:query.columns[]@\:`alias
   cv:(contextValue@(c.reportType))@c.contextType
+  p:query.pagingInfo.column
+  s:query.pagingInfo.startIndex
+  b:query.pagingInfo.batchSize
   :[c.reportType~`pm;d:`ProcessModel
     c.reportType~`p;d:`Process
 	c.reportType~`t;d:`Task]
@@ -70,11 +73,14 @@ main:{[query]
     ~(#=a)~#a;' `duplicateAlias
 	cv~_n;' `invalidContext]
   e:cv[c.value]
-  r:returnOrLookup[;d;e]'cn
+  sr::[`asc~query.pagingInfo.order;<((h@d)@p)[e];>((h@d)@p)[e]]
+  total:#sr
+  :[(b~-1)|(-1+#sr)<(s+b);sr:s_ sr;sr:sr@s+!b]	
+  r:returnOrLookup[;d;sr]'cn
   if[1<#r;r:+r]
   result:{.+(a;x)}' r
-  qr:.((`startIndex;query.pagingInfo.startIndex;)
-      (`batchSize;query.pagingInfo.batchSize;)
-      (`total;#result)
+  qr:.((`startIndex;s;)
+      (`batchSize;b;)
+      (`total;total)
       (`result;result))
   qr}
