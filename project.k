@@ -71,7 +71,8 @@ main:{[query]
     (-1+#(!h@d))<(|/(!h@d)?/: cn);' `invalidColumn
     ~(#=cn)~#cn;' `duplicateColumn
     ~(#=a)~#a;' `duplicateAlias
-	cv~_n;' `invalidContext]
+	cv~_n;' `invalidContext
+	(p~_n)|(#cn)~cn?p;' `pagingColumnInvalid]
   e:cv[c.value]
   sr::[`asc~query.pagingInfo.order;<((h@d)@p)[e];>((h@d)@p)[e]]
   total:#sr
