@@ -7,42 +7,39 @@
 whereAll:{[a;b];{:[|/a[x]~/:b;x]}' !#a}
 
 / the functions in the contextValue map should be called on query.context.value
+/ note to self: in the future, define the dictionary using a more readable syntax.
+/ if there's time at the end, re-write this block for readability.
 contextValue:.((`pm
-  .,(`pm;{ / if[(|/ x) > -1+#h.ProcessModel.name;' `invalidPmId]
-           :[x~_n;!#h.ProcessModel.name
-            @x;,x
-		    x]};)
+  .,(`pm;{ :[x~_n;!#h.ProcessModel.name
+        @x;,x
+		x]};)
 	)
 	(`p
-	  .((`p;{ / if[(|/ x) > -1+#h.Process.name;' `invalidProcessId]
-	       :[x~_n;!#h.Process.name
-            @x;,x
-		    x]};)
-		(`pm;{ / if[(|/ x) > -1+#h.ProcessModel.name;' `invalidPmId]
-		      tmp:whereAll[h.Process.pm;x] _dv _n
-		      :[(tmp~())&(~(x~_n));:() 
-			    tmp~();!#h.Process.name
-                @tmp;,tmp
-		        tmp]};))
+	  .((`p;{ :[x~_n;!#h.Process.name
+        @x;,x
+		x]};)
+		(`pm;{tmp:whereAll[h.Process.pm;x] _dv _n
+		    :[(tmp~())&(~(x~_n));:() 
+			tmp~();!#h.Process.name
+            @tmp;,tmp
+		    tmp]};))
 	)
 	(`t
-	.((`pm;{ / if[(|/ x) > -1+#h.ProcessModel.name;' `invalidPmId]
-		   tmp:whereAll[h.Process.pm;x] _dv _n
+	.((`pm;{tmp:whereAll[h.Process.pm;x] _dv _n
 		   :[(tmp~())&(~(x~_n));:() 
-			  tmp~();m:!#h.Process.name
-              @tmp;m:,tmp
-		      m:tmp]
-			  ,/ h.Process.tasks[m]};)
-	  (`p;{ / if[(|/ x) > -1+#h.Process.name;' `invalidProcessId]
-	       ,/ h.Process.tasks[x]};)
-	  (`t;{ / if[(|/ x) > -1+#h.Task.name;' `invalidTaskId]
-	       :[x~_n;!#h.Task.name
-            @x;,x
-		    x]};))	
+			tmp~();m:!#h.Process.name
+            @tmp;m:,tmp
+		    m:tmp]
+			,/ h.Process.tasks[m]};)
+	  (`p;{,/ h.Process.tasks[x]};)
+	  (`t;{:[x~_n;!#h.Task.name
+           @x;,x
+		   x]};))	
 	))
 
 / returnOrLookup retrieves the value from the specified column,
-/ for the specified report type, and formats the result if necessary	
+/ for the specified report type, and formats the result if necessary.
+/ if there's time later, convert this to a map, with the appropriate function at each key	
 returnOrLookup:{
   a:((h@y)@x)[z]
   :[x~`creator;h.User.username[a]
