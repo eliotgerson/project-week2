@@ -58,12 +58,18 @@ returnOrLookup:{
 
 main:{[query]
   c:query.context
+  cn:query.columns[]@\:`name
   a:query.columns[]@\:`alias
+  cv:(contextValue@(c.reportType))@c.contextType
   :[c.reportType~`pm;d:`ProcessModel
     c.reportType~`p;d:`Process
 	c.reportType~`t;d:`Task]
-  e:((contextValue@(c.reportType))@c.contextType)[c.value]
-  cn:query.columns[]@\:`name
+  :[(cn~(;;))|(cn~(;))|(cn~_n);' `noColumnSpecified
+    (-1+#(!h@d))<(|/(!h@d)?/: cn);' `invalidColumn
+    ~(#=cn)~#cn;' `duplicateColumn
+    ~(#=a)~#a;' `duplicateAlias
+	cv~_n;' `invalidContext]
+  e:cv[c.value]
   r:returnOrLookup[;d;e]'cn
   if[1<#r;r:+r]
   result:{.+(a;x)}' r
