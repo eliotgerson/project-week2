@@ -20,28 +20,28 @@ h:.((`User
      (`creator;0,0,2,1;)          / index - key to `User table
      (`uuid;("a4556fgt";"poljj6ll";"56yyg4re";"ok877ygt");)              / charray - Universal Identified
      (`cleanup;0,1,1,0;)          / integer [0-1]
-     (`pvs;(0,2;,1;0,1,2;0,1,2,3);)               / indices - keys to `ProcessModelVariable
+     (`pvs;(0,2;1;0,1,2;0,1,2,3);)               / indices - keys to `ProcessModelVariable
      (`nodes;(0,3,4;0,1,3,4;2,3,4;0,1,3,4);))            / indices - keys to `ProcessModelNode
    )
   (`ProcessVariable
-   .((`name;0#`;)             / symbol
-     (`value;0#0;))           / index - key to `Data
+   .((`name;`id`amount`total`city;)             / symbol
+     (`value;0,1,2,3;))           / index - key to `Data
    )
   (`Task
-   .((`name;0#`;)             / symbol
-     (`ts_accepted;0#0.0;)    / double - timestamp accepted
-     (`ts_completed;0#0.0;)   / double - timestamp completed
-     (`ts_created;0#0.0;)     / double - timestamp created
-     (`assignee;0#0;))        / index - key to `User table
+   .((`name;`updateExpenses`checklist`completed`review;)             / symbol
+     (`ts_accepted;-6817.120,-6940.241,-6882.554,-6785.232;)    / double - timestamp accepted
+     (`ts_completed;-6807.127,-6900.248,-6832.559,-6755.236;)   / double - timestamp completed
+     (`ts_created;-6819.124,-6940.641,-6882.574,-6786.232;)     / double - timestamp created
+     (`assignee;1,2,2,1;))        / index - key to `User table
    )
   (`Process
-   .((`name;0#`;)             / symbol
-     (`tsm;0#0.0;)            / double - timestamp of last update
-     (`tsc;0#0.0;)            / double - timestamp of creation
-     (`initiator;0#0;)        / index - key to `User table
-     (`pvs;();)               / indices - keys to `ProcessVariable
-     (`tasks;();)             / indices - keys to `Task
-     (`pm;0#0;))              / index - key to ProcessModel
+   .((`name;`manageExpenses`findMissing`doNext`updateValues`runLatest`seeAll;)             / symbol
+     (`tsm;-6807.120,-6900.241,-6832.554,-6755.232,-6761.371,-6800.304;)            / double - timestamp of last update
+     (`tsc;-6814.125,-6911.143,-6890.704,-6758.232,-6762.354,-6800.318;)            / double - timestamp of creation
+     (`initiator;1,1,2,0,2,1;)        / index - key to `User table
+     (`pvs;(0,2;1;0,1,2;0,1,2,3;0,1,2;0,2);)               / indices - keys to `ProcessVariable
+     (`tasks;(1,2;();();3;0;());)             / indices - keys to `Task
+     (`pm;0,1,2,3,2,0;))              / index - key to ProcessModel
    )
   (`Type
    .,(`name
@@ -49,6 +49,6 @@ h:.((`User
       )
    )
   (`Data
-   .((`type;0#0;)             / index - key to `Type
-     (`value;();))            / any type - the actual value stored
+   .((`type;0,1,1,2;)             / index - key to `Type
+     (`value;(23;232.04;750.00;"Albuquerque");))            / any type - the actual value stored
    ))
