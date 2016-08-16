@@ -8,18 +8,37 @@ whereAll:{[a;b];{:[|/a[x]~/:b;x]}' !#a}
 
 / the functions in the contextValue map should be called on query.context.value
 contextValue:.((`pm
-  .,(`pm;{:[x~_n;!#h.ProcessModel.name
+  .,(`pm;{ / if[(|/ x) > -1+#h.ProcessModel.name;' `invalidPmId]
+           :[x~_n;!#h.ProcessModel.name
             @x;,x
 		    x]};)
 	)
 	(`p
-	  .((`p;{:[x~_n;!#h.Process.name
+	  .((`p;{ / if[(|/ x) > -1+#h.Process.name;' `invalidProcessId]
+	       :[x~_n;!#h.Process.name
             @x;,x
 		    x]};)
-		(`pm;{tmp:whereAll[h.Process.pm;x] _dv _n
-		      :[tmp~();!#h.Process.name
-            @tmp;,tmp
-		    tmp]};))
+		(`pm;{ / if[(|/ x) > -1+#h.ProcessModel.name;' `invalidPmId]
+		      tmp:whereAll[h.Process.pm;x] _dv _n
+		      :[(tmp~())&(~(x~_n));:() 
+			    tmp~();!#h.Process.name
+                @tmp;,tmp
+		        tmp]};))
+	)
+	(`t
+	.((`pm;{ / if[(|/ x) > -1+#h.ProcessModel.name;' `invalidPmId]
+		   tmp:whereAll[h.Process.pm;x] _dv _n
+		   :[(tmp~())&(~(x~_n));:() 
+			  tmp~();m:!#h.Process.name
+              @tmp;m:,tmp
+		      m:tmp]
+			  ,/ h.Process.tasks[m]};)
+	  (`p;{ / if[(|/ x) > -1+#h.Process.name;' `invalidProcessId]
+	       ,/ h.Process.tasks[x]};)
+	  (`t;{ / if[(|/ x) > -1+#h.Task.name;' `invalidTaskId]
+	       :[x~_n;!#h.Task.name
+            @x;,x
+		    x]};))	
 	))
 
 / returnOrLookup retrieves the value from the specified column,
@@ -34,6 +53,7 @@ returnOrLookup:{
    (x~`tsm)|(x~`tsc)|(x~`ts_accepted)|(x~`ts_completed)|(x~`ts_created);.d.sz' a
     x~`tasks;h.Task.name[a]
     x~`pm;h.ProcessModel.name[a]
+	x~`assignee;h.User.username[a]
     a]}
 	
 	
