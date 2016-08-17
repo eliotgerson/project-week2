@@ -77,7 +77,7 @@ main:{[query]
   sr::[`asc~query.pagingInfo.order;<((h@d)@p)[e];>((h@d)@p)[e]]
   total:#sr
   :[(b~-1)|(-1+#sr)<(s+b);sr:s_ sr;sr:sr@s+!b]	
-  r:returnOrLookup[;d;sr]'cn
+  r:returnOrLookup[;d;e@sr]'cn
   if[1<#r;r:+r]
   result:{.+(a;x)}' r
   qr:.((`startIndex;s;)
