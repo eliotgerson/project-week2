@@ -64,6 +64,8 @@ main:{[query]
   p:query.pagingInfo.column
   s:query.pagingInfo.startIndex
   b:query.pagingInfo.batchSize
+  icg:query.columns[]@\:`groupBy
+  agg:query.columns[]@\:`aggregation
   :[c.reportType~`pm;d:`ProcessModel
     c.reportType~`p;d:`Process
 	c.reportType~`t;d:`Task]
@@ -74,6 +76,19 @@ main:{[query]
 	cv~_n;' `invalidContext
 	(p~_n)|(#cn)~cn?p;' `pagingColumnInvalid]
   e:cv[c.value]
+  if[1~|/icg
+    cwg:cn@(=icg)@~*?icg
+    cwagg:cn@(=icg)@*?icg
+	groups: :[1~#cwg;returnOrLookup[;d;e]'cwg
+	         (returnOrLookup[;d;e]'*cwg),'/:returnOrLookup[;d;e]'1_ cwg]
+	gi: =,/groups
+	e:e@gi
+	cn:cwagg
+	ragg:,:'+#:''returnOrLookup[;d;e]' cwagg
+	gagg:,:'*:'(,/groups)[gi]
+    r:gagg,'ragg
+    result:a,'/:,/'r
+	:result]
   sr::[`asc~query.pagingInfo.order;<((h@d)@p)[e];>((h@d)@p)[e]]
   total:#sr
   :[(b~-1)|(-1+#sr)<(s+b);sr:s_ sr;sr:sr@s+!b]	
