@@ -82,19 +82,20 @@ main:{[query]
 	groups: :[1~#cwg;returnOrLookup[;d;e]'cwg
 	         (returnOrLookup[;d;e]'*cwg),'/:returnOrLookup[;d;e]'1_ cwg]
 	gi: =,/groups
-	e:e@gi
 	cn:cwagg
-	ragg:,:'+#:''returnOrLookup[;d;e]' cwagg
+	ragg:,:'+#:''(returnOrLookup[;d;e]' cwagg)@\:gi
 	gagg:,:'*:'(,/groups)[gi]
     r:gagg,'ragg
     result:a,'/:,/'r
-	:result]
-  sr::[`asc~query.pagingInfo.order;<((h@d)@p)[e];>((h@d)@p)[e]]
-  total:#sr
-  :[(b~-1)|(-1+#sr)<(s+b);sr:s_ sr;sr:sr@s+!b]	
-  r:returnOrLookup[;d;e@sr]'cn
-  if[1<#r;r:+r]
-  result:{.+(a;x)}' r
+	total:#result
+	result:.:'result]
+  if[0~|/icg
+	sr::[`asc~query.pagingInfo.order;<((h@d)@p)[e];>((h@d)@p)[e]]
+	total:#sr
+	:[(b~-1)|(-1+#sr)<(s+b);sr:s_ sr;sr:sr@s+!b]	
+	r:returnOrLookup[;d;e@sr]'cn
+	if[1<#r;r:+r]
+	result:{.+(a;x)}' r]
   qr:.((`startIndex;s;)
       (`batchSize;b;)
       (`total;total)
