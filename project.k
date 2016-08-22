@@ -38,6 +38,8 @@ contextValue:.((`pm
 	))
 	
 aggOperation[`count]:{#x}
+aggOperation[`min]:{,x@*<x}
+aggOperation[`max]:{,x@*>x}
 
 / returnOrLookup retrieves the value from the specified column,
 / for the specified report type, and formats the result if necessary.
@@ -81,6 +83,8 @@ main:{[query]
   if[1~|/icg
     cwg:cn@(=icg)@~*?icg
     cwagg:cn@(=icg)@*?icg
+	galias:a@(=icg)@~*?icg
+	aggalias:a@(=icg)@*?icg
 	agg:aggops@(=icg)@*?icg
 	agg:{:[x~_n;:`count;:x]}' agg
 	groups: :[1~#cwg;returnOrLookup[;d;e]'cwg
@@ -91,6 +95,7 @@ main:{[query]
 	resagg:,:'+{aggOperation[agg[x]]' resagg[x]}' !#agg
 	resg:,:'*:'(,/groups)[gi]
     r:resg,'resagg
+	a:galias,aggalias
     result:a,'/:,/'r
 	total:#result
 	result:.:'result]
