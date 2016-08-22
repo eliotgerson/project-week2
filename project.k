@@ -1,5 +1,5 @@
 / note that the variable `h refers to the dictionary defined in dictionary.k
-/ if you use to use a dictionary with different data, please initialize it as `h
+/ if you want to use a dictionary with different data, please initialize it as `h
 / in the appropriate namespace.
 
 / to get timestamp conversion functions:
