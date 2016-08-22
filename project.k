@@ -67,7 +67,7 @@ main:{[query]
   s:query.pagingInfo.startIndex
   b:query.pagingInfo.batchSize
   icg:query.columns[]@\:`groupBy
-  aggop:query.columns[]@\:`aggregation
+  aggops:query.columns[]@\:`aggregation
   :[c.reportType~`pm;d:`ProcessModel
     c.reportType~`p;d:`Process
 	c.reportType~`t;d:`Task]
@@ -81,16 +81,16 @@ main:{[query]
   if[1~|/icg
     cwg:cn@(=icg)@~*?icg
     cwagg:cn@(=icg)@*?icg
-	agg:aggop@(=icg)@*?icg
+	agg:aggops@(=icg)@*?icg
 	agg:{:[x~_n;:`count;:x]}' agg
 	groups: :[1~#cwg;returnOrLookup[;d;e]'cwg
 	         (returnOrLookup[;d;e]'*cwg),'/:returnOrLookup[;d;e]'1_ cwg]
 	gi: =,/groups
 	cn:cwagg
-	ragg:(returnOrLookup[;d;e]' cwagg)@\:gi
-	ragg:,:'+{aggOperation[agg[x]]' ragg[x]}' !#agg
-	gagg:,:'*:'(,/groups)[gi]
-    r:gagg,'ragg
+	resagg:(returnOrLookup[;d;e]' cwagg)@\:gi
+	resagg:,:'+{aggOperation[agg[x]]' resagg[x]}' !#agg
+	resg:,:'*:'(,/groups)[gi]
+    r:resg,'resagg
     result:a,'/:,/'r
 	total:#result
 	result:.:'result]
