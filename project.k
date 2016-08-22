@@ -38,8 +38,9 @@ contextValue:.((`pm
 	))
 	
 aggOperation[`count]:{#x}
-aggOperation[`min]:{,x@*<x}
-aggOperation[`max]:{,x@*>x}
+aggOperation[`min]:{,.d.sz (&/.d.zs' x)}
+aggOperation[`max]:{,.d.sz (|/.d.zs' x)}
+aggOperation[`avg]:{tmp:.d.zs' x;,.d.sz (+/tmp)%#tmp}
 
 / returnOrLookup retrieves the value from the specified column,
 / for the specified report type, and formats the result if necessary.
