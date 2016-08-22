@@ -1,4 +1,7 @@
 / note that the variable `h refers to the dictionary defined in dictionary.k
+/ if you use to use a dictionary with different data, please initialize it as `h
+/ in the appropriate namespace.
+
 / to get timestamp conversion functions:
 \l db
 
@@ -86,6 +89,7 @@ main:{[query]
     cwagg:cn@(=icg)@*?icg
 	galias:a@(=icg)@~*?icg
 	aggalias:a@(=icg)@*?icg
+	if[~()~(aggops@(=icg)@~*?icg) _dv _n;' `"Aggregation not null on grouped column"]
 	agg:aggops@(=icg)@*?icg
 	agg:{:[x~_n;:`count;:x]}' agg
 	groups: :[1~#cwg;returnOrLookup[;d;e]'cwg
@@ -93,6 +97,7 @@ main:{[query]
 	gi: =,/groups
 	cn:cwagg
 	resagg:(returnOrLookup[;d;e]' cwagg)@\:gi
+	if[~(#((,/ aggOperation'agg) _dv _n))~#agg;' `invalidAggregationOperation]
 	resagg:,:'+{aggOperation[agg[x]]' resagg[x]}' !#agg
 	resg:,:'*:'(,/groups)[gi]
     r:resg,'resagg
