@@ -36,6 +36,8 @@ contextValue:.((`pm
            @x;,x
 		   x]};))	
 	))
+	
+aggOperation[`count]:{#x}
 
 / returnOrLookup retrieves the value from the specified column,
 / for the specified report type, and formats the result if necessary.
@@ -65,7 +67,7 @@ main:{[query]
   s:query.pagingInfo.startIndex
   b:query.pagingInfo.batchSize
   icg:query.columns[]@\:`groupBy
-  agg:query.columns[]@\:`aggregation
+  aggop:query.columns[]@\:`aggregation
   :[c.reportType~`pm;d:`ProcessModel
     c.reportType~`p;d:`Process
 	c.reportType~`t;d:`Task]
@@ -79,11 +81,14 @@ main:{[query]
   if[1~|/icg
     cwg:cn@(=icg)@~*?icg
     cwagg:cn@(=icg)@*?icg
+	agg:aggop@(=icg)@*?icg
+	agg:{:[x~_n;:`count;:x]}' agg
 	groups: :[1~#cwg;returnOrLookup[;d;e]'cwg
 	         (returnOrLookup[;d;e]'*cwg),'/:returnOrLookup[;d;e]'1_ cwg]
 	gi: =,/groups
 	cn:cwagg
-	ragg:,:'+#:''(returnOrLookup[;d;e]' cwagg)@\:gi
+	ragg:(returnOrLookup[;d;e]' cwagg)@\:gi
+	ragg:,:'+{aggOperation[agg[x]]' ragg[x]}' !#agg
 	gagg:,:'*:'(,/groups)[gi]
     r:gagg,'ragg
     result:a,'/:,/'r
